@@ -1,0 +1,50 @@
+name: outfitable_mobile_app
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.16.1 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+
+  camera: ^0.9.4+16           # camera access and image-streaming
+  dio: ^4.0.4                 # http-requests
+  equatable: ^2.0.3           # compare objects
+  flutter_bloc: ^8.0.1        # basic bloc-pattern state-management
+  flutter_colorpicker: ^1.0.3 # color picker
+  flutter_dotenv: ^5.0.2      # .env save-file for sensible data
+  flutter_svg: ^1.0.3         # display svgs
+  get_it: ^7.2.0              # dependency injection
+  google_fonts: ^2.3.1        # fonts
+  hive: ^2.1.0                # no-sql local database
+  hive_flutter: ^1.1.0        # extension to hive
+  hydrated_bloc: ^8.1.0       # bloc-library with integrated storage
+  intl: ^0.17.0               # localization
+  tflite: ^1.1.2              # tensorflow for AI-image-classification
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  build_runner: ^2.1.8
+  hive_generator: ^1.1.2
+
+  flutter_lints: ^1.0.0
+
+flutter:
+  generate: true
+
+  uses-material-design: true
+
+  assets:
+    - assets/icons/
+    - assets/images/
+    - assets/tensorflow/
+    - .env

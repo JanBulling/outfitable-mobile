@@ -1,0 +1,56 @@
+{
+    "outfitable": "Outfitable",
+    "clothing_type": "{type, select, 0{Blouse} 1{Dress} 2{Hoodie} 3{Jacket} 4{Jeans} 5{Pants} 6{Shirt} 7{Shorts} 8{Skirt} 9{Sweater} 10{Top} 11{T-Shirt} other{-}}",
+    "@clothing_type": {
+        "placeholders": {
+            "type": {
+                "type": "int"
+            }
+        }
+    },
+    "clothing_temperatures": "{temp, select, 0{Icy} 1{Cold} 2{Moderate} 3{Warm} 4{Hot} other{-}}",
+    "@clothing_temperatures": {
+        "placeholders": {
+            "temp": {
+                "type": "int"
+            }
+        }
+    },
+    "clothing_parts": "{part, select, 0{Top Part} 1{Lower Part} 2{Both} other{-}}",
+    "@clothing_parts": {
+        "placeholders": {
+            "part": {
+                "type": "int"
+            }
+        }
+    },
+    "clothing_style": "{style, select, 0{Casual} 1{Formal} 2{Sports} other{-}}",
+    "@clothing_style": {
+        "placeholders": {
+            "style": {
+                "type": "int"
+            }
+        }
+    },
+    "outfit_message_too_cold": "It could be a little too cold with this outfit",
+    "outfit_message_too_hot": "It could be a little too warm with this outfit",
+    "outfit_message_raining": "It is raining today. Consider a jacket",
+    "outfit_message_stormy": "It is a little stormy today. Consider a jacket",
+    "home_tab": "Home",
+    "closet_tab": "Closet",
+    "favorites_tab": "Favorites",
+    "profile_tab": "Profile",
+    "add_new_clothing": "Add new clothing",
+    "add_clothing": "Add clothing",
+    "daily_outfit": "Daily outfit",
+    "generated_outfit": "Generated outfit:",
+    "outfit_pieces": "Outfit piecec:",
+    "save_outfit": "Save outfit",
+    "new_outfit": "New outfit",
+    "select_clothing_type": "Select clothing type",
+    "select_clothing_style": "Select style",
+    "select_clothing_temperature": "Select optimal temperature",
+    "add": "Add",
+    "select_color": "Select color",
+    "change_color": "Change color"
+}
