@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:outfitable_mobile_app/models/clothing/utils.dart';
+import 'package:outfitable_mobile_app/models/weather/utils.dart';
 
 import '../../../cubits/generate_outfit_cubit.dart';
 import '../../../cubits/weather_cubit.dart';
@@ -76,9 +79,10 @@ class HomeView extends StatelessWidget {
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(width: 5),
-                          Icon(Icons.cloud, color: Colors.grey.shade400),
+                          SvgPicture.asset(WeatherUtils.getWeatherIconPath(state.weather.current.weatherCode)),
+                          const SizedBox(width: 10),
                           Text(
-                            "   ·   ${state.weather.current.timeString}",
+                            state.weather.current.timeString,
                             style: const TextStyle(fontWeight: FontWeight.bold),
                           ),
                         ],
@@ -102,10 +106,18 @@ class HomeView extends StatelessWidget {
                       if (state is SuccessOutfitState) {
                         return Column(
                           children: [
-                            Text(
-                                "Type: ${lang.clothing_type(state.outfit.topPart?.type ?? -1)}  Color: ${state.outfit.topPart?.color}"),
-                            Text(
-                                "Type: ${lang.clothing_type(state.outfit.lowerPart?.type ?? -1)}  Color: ${state.outfit.lowerPart?.color}"),
+                            SvgPicture.asset(
+                              ClothingUtils.getTypeIconPath(state.outfit.topPart?.type ?? ClothingType.NONE),
+                              color: state.outfit.topPart?.color,
+                              width: 100,
+                              height: 100,
+                            ),
+                            SvgPicture.asset(
+                              ClothingUtils.getTypeIconPath(state.outfit.lowerPart?.type ?? ClothingType.NONE),
+                              color: state.outfit.lowerPart?.color,
+                              width: 100,
+                              height: 100,
+                            ),
                             OutfitAlertWidge(state.outfit),
                           ],
                         );
