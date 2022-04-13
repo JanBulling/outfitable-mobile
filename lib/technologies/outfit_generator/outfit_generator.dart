@@ -53,7 +53,7 @@ class OutfitGenerator {
     Outfit outfit = Outfit();
 
     int seed = _generateDailySeed();
-    print("Seed: $seed");
+    print("[Outfit Generation] - Daily seed: $seed");
 
     // Check, if the outfit of this day is already in cache. If it is, the cached outfit is
     // immediately returned.
@@ -62,7 +62,7 @@ class OutfitGenerator {
       var cacheOutfit = await _getFromCache(seed);
 
       if (cacheOutfit != null) {
-        print("Outfit from Cache: $cacheOutfit");
+        print("[Outfit Generation] - Got outfit '$cacheOutfit' from cache");
         return cacheOutfit;
       }
     }
@@ -77,36 +77,29 @@ class OutfitGenerator {
     if (weather == null) {
       temperature = _getTemperatureFromMonth();
 
-      outfit.message = "Not sure if the outfit fits perfectky. No Weather data available.";
-      outfit.alertionType = AlertionType.OPTIMAL;
+      outfit.alertionType = AlertionType.NO_WEATHER_DATA_AVAILABLE;
     } else {
       temperature = _getTemperatureCategory(weather);
 
       if (weather.maxWindSpeed > windThreshold) {
-        outfit.icon = Icons.air;
-        outfit.message = "It is stormy today. Take a jacket!";
-        outfit.alertionType = AlertionType.OPTIMAL;
+        outfit.alertionType = AlertionType.STORMING;
       }
 
       if (weather.rain) {
-        outfit.icon = Icons.water_drop;
-        outfit.message = "It is raining today. Take a jacket!";
-        outfit.alertionType = AlertionType.OPTIMAL;
+        outfit.alertionType = AlertionType.RAINING;
       }
 
       if (weather.snow) {
-        outfit.icon = Icons.snowing;
-        outfit.message = "It is snowing today. Take a jacket!";
-        outfit.alertionType = AlertionType.OPTIMAL;
+        outfit.alertionType = AlertionType.SNOWING;
       }
     }
 
-    print("temperature: ${temperature}");
+    print("[Outfit Generation] - Temperature category for today: $temperature");
 
     // --------------------------------------------------------------------------------
     // ------ Generate top-clothing part ----------------------------------------------
     // --------------------------------------------------------------------------------
-    List<Clothing> topPartList = _service.findClothing(temperature, ClothingPart.TOP_PART, style);
+    List<Clothing> topPartList = _service.findClothing(temperature, ClothingPart.TOP, style);
 
     // if the list is empty, the algorithm tries to find a piece with a simular, but not
     // optimal temperature.
@@ -117,7 +110,7 @@ class OutfitGenerator {
 
       if (mostSimularTemperature["temp"] == null) break;
 
-      topPartList = _service.findClothing(mostSimularTemperature["temp"], ClothingPart.TOP_PART, style);
+      topPartList = _service.findClothing(mostSimularTemperature["temp"], ClothingPart.TOP, style);
       outfit.alertionType = mostSimularTemperature["alertion"];
     }
 
@@ -125,18 +118,16 @@ class OutfitGenerator {
     // If it can't succeed, a message (type: AlertionType.ERROR) is shown.
     if (topPartList.isEmpty) {
       int closestStyle = _getClosestStyle(style);
-      topPartList = _service.findClothing(temperature, ClothingPart.TOP_PART, closestStyle);
+      topPartList = _service.findClothing(temperature, ClothingPart.TOP, closestStyle);
 
       if (topPartList.isNotEmpty) {
-        outfit.message = "Not exactly the style you wanted, but it is the best, we could find.";
-        outfit.alertionType = AlertionType.ERROR;
+        outfit.alertionType = AlertionType.WRONG_STYLE;
       } else {
-        outfit.message = "No Outfit could be generated because there is no fitting piece for you.";
-        outfit.alertionType = AlertionType.ERROR;
+        outfit.alertionType = AlertionType.NOT_ENOUGH_CLOTHING;
       }
     }
 
-    print("top Parts: ${topPartList.length}");
+    print("[Outfit Generation] - Found ${topPartList.length} reasonable top parts for today.");
 
     // Pick randomly one of the top-parts
     Clothing topPart;
@@ -145,7 +136,7 @@ class OutfitGenerator {
       int randomIndex = _random.nextInt(length);
 
       topPart = topPartList[randomIndex];
-      outfit.upperClothing = topPart;
+      outfit.topPart = topPart;
     } else {
       return outfit; // TODO: not sure, maybe pick random pants??
     }
@@ -153,7 +144,7 @@ class OutfitGenerator {
     // --------------------------------------------------------------------------------
     // ------ Find matching lower-part ------------------------------------------------
     // --------------------------------------------------------------------------------
-    List<Clothing> lowerPartList = _service.findClothing(temperature, ClothingPart.LOWER_PART, style);
+    List<Clothing> lowerPartList = _service.findClothing(temperature, ClothingPart.LOWER, style);
 
     // if the list is empty, the algorithm tries to find a piece with a simular, but not
     // optimal temperature.
@@ -164,7 +155,7 @@ class OutfitGenerator {
 
       if (mostSimularTemperature["temp"] == null) break;
 
-      lowerPartList = _service.findClothing(mostSimularTemperature["temp"], ClothingPart.LOWER_PART, style);
+      lowerPartList = _service.findClothing(mostSimularTemperature["temp"], ClothingPart.LOWER, style);
       //outfit.alertionType = mostSimularTemperature["alertion"]; // No message - top-part makes a bigger difference
     }
 
@@ -172,18 +163,16 @@ class OutfitGenerator {
     // If it can't succeed, a message (type: AlertionType.ERROR) is shown.
     if (lowerPartList.isEmpty) {
       int closestStyle = _getClosestStyle(style);
-      lowerPartList = _service.findClothing(temperature, ClothingPart.LOWER_PART, closestStyle);
+      lowerPartList = _service.findClothing(temperature, ClothingPart.LOWER, closestStyle);
 
       if (lowerPartList.isNotEmpty) {
-        outfit.message = "Not exactly the style you wanted, but it is the best, we could find.";
-        outfit.alertionType = AlertionType.ERROR;
+        outfit.alertionType = AlertionType.WRONG_STYLE;
       } else {
-        outfit.message = "No Outfit could be generated because there is no fitting piece for you.";
-        outfit.alertionType = AlertionType.ERROR;
+        outfit.alertionType = AlertionType.NOT_ENOUGH_CLOTHING;
       }
     }
 
-    print("lower Parts: ${lowerPartList.length}");
+    print("[Outfit Generation] - Found ${lowerPartList.length} reasonable lower parts for today.");
 
     // Asigning scores to every outfit combination and find the colors, that fit
     // together the best.
@@ -198,7 +187,7 @@ class OutfitGenerator {
       }
     }
 
-    outfit.lowerClothing = lowerPartList[maxScoreIndex];
+    outfit.lowerPart = lowerPartList[maxScoreIndex];
 
     // save outfit as it is in cache. Only do that, when the outfit is generated the first
     // time for this day
@@ -292,19 +281,19 @@ class OutfitGenerator {
 
     switch (temperature) {
       case TemperatureCategory.HOT:
-        if (depth == 1) return {"temp": TemperatureCategory.WARM, "alertion": AlertionType.TOO_HOT};
+        if (depth == 1) return {"temp": TemperatureCategory.WARM, "alertion": AlertionType.OUTFIT_TOO_HOT};
         return {"temp": null, "alertion": AlertionType.ERROR};
       case TemperatureCategory.WARM:
-        if (depth == 1) return {"temp": TemperatureCategory.MODERATE, "alertion": AlertionType.TOO_HOT};
-        return {"temp": TemperatureCategory.HOT, "alertion": AlertionType.TOO_COLD};
+        if (depth == 1) return {"temp": TemperatureCategory.MODERATE, "alertion": AlertionType.OUTFIT_TOO_HOT};
+        return {"temp": TemperatureCategory.HOT, "alertion": AlertionType.OUTFIT_TOO_COLD};
       case TemperatureCategory.MODERATE:
-        if (depth == 1) return {"temp": TemperatureCategory.COLD, "alertion": AlertionType.TOO_HOT};
-        return {"temp": TemperatureCategory.WARM, "alertion": AlertionType.TOO_COLD};
+        if (depth == 1) return {"temp": TemperatureCategory.COLD, "alertion": AlertionType.OUTFIT_TOO_HOT};
+        return {"temp": TemperatureCategory.WARM, "alertion": AlertionType.OUTFIT_TOO_COLD};
       case TemperatureCategory.COLD:
-        if (depth == 1) return {"temp": TemperatureCategory.ICY, "alertion": AlertionType.TOO_HOT};
-        return {"temp": TemperatureCategory.MODERATE, "alertion": AlertionType.TOO_COLD};
+        if (depth == 1) return {"temp": TemperatureCategory.ICY, "alertion": AlertionType.OUTFIT_TOO_HOT};
+        return {"temp": TemperatureCategory.MODERATE, "alertion": AlertionType.OUTFIT_TOO_COLD};
       case TemperatureCategory.ICY:
-        if (depth == 1) return {"temp": TemperatureCategory.COLD, "alertion": AlertionType.TOO_COLD};
+        if (depth == 1) return {"temp": TemperatureCategory.COLD, "alertion": AlertionType.OUTFIT_TOO_COLD};
         return {"temp": null, "alertion": AlertionType.ERROR};
       default:
         return {"temp": null, "alertion": AlertionType.ERROR};

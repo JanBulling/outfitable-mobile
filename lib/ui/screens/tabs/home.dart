@@ -103,9 +103,9 @@ class HomeView extends StatelessWidget {
                         return Column(
                           children: [
                             Text(
-                                "Type: ${lang.clothing_type(state.outfit.upperClothing?.type ?? -1)}  Color: ${state.outfit.upperClothing?.color}"),
+                                "Type: ${lang.clothing_type(state.outfit.topPart?.type ?? -1)}  Color: ${state.outfit.topPart?.color}"),
                             Text(
-                                "Type: ${lang.clothing_type(state.outfit.lowerClothing?.type ?? -1)}  Color: ${state.outfit.lowerClothing?.color}"),
+                                "Type: ${lang.clothing_type(state.outfit.lowerPart?.type ?? -1)}  Color: ${state.outfit.lowerPart?.color}"),
                             OutfitAlertWidge(state.outfit),
                           ],
                         );
@@ -147,8 +147,8 @@ class HomeView extends StatelessWidget {
                     if (state is SuccessOutfitState) {
                       return Row(
                         children: [
-                          Text("Piece 1: ${state.outfit.upperClothing?.type}"),
-                          Text("Piece 2: ${state.outfit.lowerClothing?.type}"),
+                          Text("Piece 1: ${state.outfit.topPart?.type}"),
+                          Text("Piece 2: ${state.outfit.lowerPart?.type}"),
                         ],
                       );
                     } else if (state is ErrorOutfitState) {
@@ -186,8 +186,8 @@ class OutfitDisplay extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Text("Type: ${lang.clothing_type(outfit.upperClothing?.type ?? -1)}  Color: ${outfit.upperClothing?.color}"),
-          Text("Type: ${lang.clothing_type(outfit.lowerClothing?.type ?? -1)}  Color: ${outfit.lowerClothing?.color}")
+          Text("Type: ${lang.clothing_type(outfit.topPart?.type ?? -1)}  Color: ${outfit.topPart?.color}"),
+          Text("Type: ${lang.clothing_type(outfit.lowerPart?.type ?? -1)}  Color: ${outfit.lowerPart?.color}")
         ],
       ),
     );

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 import '../../models/clothing/outfit.dart';
 
 class OutfitAlertWidge extends StatelessWidget {
@@ -9,7 +11,9 @@ class OutfitAlertWidge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return outfit.message == null
+    var lang = AppLocalizations.of(context)!;
+
+    return outfit.message(lang) == null
         ? Container()
         : Container(
             width: double.infinity,
@@ -18,7 +22,7 @@ class OutfitAlertWidge extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8),
-              color: outfit.backgroundColor,
+              color: outfit.color,
             ),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -28,7 +32,7 @@ class OutfitAlertWidge extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
-                    outfit.message!,
+                    outfit.message(lang)!,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w500),

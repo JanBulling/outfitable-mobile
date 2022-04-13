@@ -1,0 +1,8 @@
+dress
+hoodie
+longsleeve
+pants
+shirt
+shorts
+skirt
+t-shirt

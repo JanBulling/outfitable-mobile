@@ -14,12 +14,12 @@ class TensorflowCubit extends Cubit<TensorflowState> {
     emit(LoadingModelTensorflowState());
 
     try {
-      print("Loading model...");
+      print("Loading Tensorflow model...");
       await _service.loadModel(
-        "assets/tensorflow/model_mobile.tflite",
-        "assets/tensorflow/labels_mobile.txt",
+        "assets/tensorflow/model_outfitable_v2.tflite",
+        "assets/tensorflow/labels_outfitable_v2.txt",
       );
-      print("loaded model");
+      print("Tensorflow model loaded successfully");
 
       emit(ModelLoadedTensorflowState());
     } catch (err) {
@@ -39,10 +39,6 @@ class TensorflowCubit extends Cubit<TensorflowState> {
     } catch (err) {
       emit(ErrorTensorflowState(err.toString()));
     }
-  }
-
-  void closeTflite() async {
-    await _service.close();
   }
 
   @override

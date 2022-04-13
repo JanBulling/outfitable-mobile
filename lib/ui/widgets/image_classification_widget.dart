@@ -96,7 +96,6 @@ class _ImageClassifierState extends State<ImageClassifier> with WidgetsBindingOb
 
     // Close tensorflow
     Tflite.close();
-    //BlocProvider.of<TensorflowCubit>(context).closeTflite();
 
     super.dispose();
   }
@@ -115,9 +114,10 @@ class _ImageClassifierState extends State<ImageClassifier> with WidgetsBindingOb
   // ======== Ui ==========================================================
   @override
   Widget build(BuildContext context) {
+    double detectionArea = MediaQuery.of(context).size.width - 20;
+
     return BlocListener<TensorflowCubit, TensorflowState>(
       listener: (_, state) {
-        print("state: $state");
         if (state is ModelLoadedTensorflowState || state is SuccessTensorflowState) {
           // wait 1.5sec for the next classificaion
           Future.delayed(const Duration(milliseconds: 1500), () => _isReadyForClassification = true);
@@ -128,8 +128,8 @@ class _ImageClassifierState extends State<ImageClassifier> with WidgetsBindingOb
               _controller!,
               child: Center(
                 child: Container(
-                  width: 300,
-                  height: 300,
+                  width: detectionArea,
+                  height: detectionArea,
                   decoration: BoxDecoration(border: Border.all(color: Colors.white, width: 3)),
                 ),
               ),

@@ -3,12 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:outfitable_mobile_app/utils/routes.dart';
 
 import '../../cubits/classifcation_cubit.dart';
 import '../../cubits/tensorflow_cubit.dart';
+import '../../models/clothing/utils.dart';
 import '../../services/tensorflow_service.dart';
 import '../../utils/dependency_injection.dart';
+import '../../utils/routes.dart';
 import '../widgets/image_classification_widget.dart';
 
 class ClassificationScreen extends StatelessWidget {
@@ -23,8 +24,6 @@ class ClassificationScreen extends StatelessWidget {
       ],
       child: BlocListener<TensorflowCubit, TensorflowState>(
         listener: (context, state) {
-          print("State in classification: $state");
-
           if (state is SuccessTensorflowState) {
             context.read<ClassificationCubit>().processResult(state.results, state.color);
           } else if (state is ErrorTensorflowState) {
@@ -57,18 +56,20 @@ class ClassificationView extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text("Image Classification")),
+      appBar: AppBar(title: Text(lang.classify_clothing)),
       body: Column(
+        mainAxisSize: MainAxisSize.max,
         children: [
           const ImageClassifier(),
           BlocBuilder<ClassificationCubit, ClassificationState>(builder: (_, state) {
             if (state is SuccessClassificationState) {
               return Row(
                 children: [
-                  SvgPicture.asset("assets/icons/tshirt.svg"),
-                  Text("Detected: ${state.resultType}"),
+                  SvgPicture.asset(ClothingUtils.getTypeIconPath(state.resultType), color: state.color),
+                  Text(lang.detected_clothing_type(lang.clothing_type(state.resultType))),
                   MaterialButton(
-                    child: const Text("Choose Clothing"),
+                    child: Text(lang.select),
+                    color: Colors.grey,
                     onPressed: () => _selectClothing(state.resultType, state.color),
                   )
                 ],

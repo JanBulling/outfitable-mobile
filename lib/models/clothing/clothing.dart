@@ -69,49 +69,27 @@ class Clothing extends HiveObject {
   }
 
   static final Map<int, Clothing> _preSettings = {
-    ClothingType.BLOUSE: Clothing(
-      type: ClothingType.BLOUSE,
-      part: ClothingPart.TOP_PART,
-      temperatures: [TemperatureCategory.MODERATE, TemperatureCategory.WARM],
-      styles: [ClothingStyle.FORMAL],
-    ),
     ClothingType.DRESS: Clothing(
       type: ClothingType.DRESS,
-      part: ClothingPart.BOTH,
+      part: ClothingPart.TOP,
       temperatures: [TemperatureCategory.MODERATE, TemperatureCategory.WARM],
       styles: [ClothingStyle.FORMAL, ClothingStyle.CASUAL],
     ),
     ClothingType.HOODIE: Clothing(
       type: ClothingType.HOODIE,
-      part: ClothingPart.TOP_PART,
+      part: ClothingPart.TOP,
       temperatures: [TemperatureCategory.ICY, TemperatureCategory.COLD, TemperatureCategory.MODERATE],
       styles: [ClothingStyle.CASUAL],
     ),
-    ClothingType.JACKET: Clothing(
-      type: ClothingType.JACKET,
-      part: ClothingPart.TOP_PART,
-      temperatures: [
-        TemperatureCategory.ICY,
-        TemperatureCategory.COLD,
-        TemperatureCategory.MODERATE,
-        TemperatureCategory.WARM
-      ],
-      styles: [ClothingStyle.FORMAL, ClothingStyle.CASUAL],
-    ),
-    ClothingType.JEANS: Clothing(
-      type: ClothingType.JEANS,
-      part: ClothingPart.LOWER_PART,
-      temperatures: [
-        TemperatureCategory.ICY,
-        TemperatureCategory.COLD,
-        TemperatureCategory.MODERATE,
-        TemperatureCategory.WARM
-      ],
+    ClothingType.LONGSLEEVE: Clothing(
+      type: ClothingType.LONGSLEEVE,
+      part: ClothingPart.TOP,
+      temperatures: [TemperatureCategory.COLD, TemperatureCategory.MODERATE],
       styles: [ClothingStyle.FORMAL, ClothingStyle.CASUAL],
     ),
     ClothingType.PANTS: Clothing(
       type: ClothingType.PANTS,
-      part: ClothingPart.LOWER_PART,
+      part: ClothingPart.LOWER,
       temperatures: [
         TemperatureCategory.ICY,
         TemperatureCategory.COLD,
@@ -122,37 +100,25 @@ class Clothing extends HiveObject {
     ),
     ClothingType.SHIRT: Clothing(
       type: ClothingType.SHIRT,
-      part: ClothingPart.TOP_PART,
+      part: ClothingPart.TOP,
       temperatures: [TemperatureCategory.MODERATE, TemperatureCategory.WARM],
-      styles: [ClothingStyle.FORMAL, ClothingStyle.CASUAL],
+      styles: [ClothingStyle.FORMAL],
     ),
     ClothingType.SHORTS: Clothing(
       type: ClothingType.SHORTS,
-      part: ClothingPart.LOWER_PART,
+      part: ClothingPart.LOWER,
       temperatures: [TemperatureCategory.WARM, TemperatureCategory.HOT],
       styles: [ClothingStyle.SPORTS, ClothingStyle.CASUAL],
     ),
     ClothingType.SKIRT: Clothing(
       type: ClothingType.SKIRT,
-      part: ClothingPart.LOWER_PART,
+      part: ClothingPart.LOWER,
       temperatures: [TemperatureCategory.WARM, TemperatureCategory.HOT],
-      styles: [ClothingStyle.FORMAL, ClothingStyle.CASUAL],
-    ),
-    ClothingType.SWEATER: Clothing(
-      type: ClothingType.SWEATER,
-      part: ClothingPart.TOP_PART,
-      temperatures: [TemperatureCategory.COLD, TemperatureCategory.MODERATE, TemperatureCategory.WARM],
       styles: [ClothingStyle.CASUAL],
-    ),
-    ClothingType.TANKTOP: Clothing(
-      type: ClothingType.TANKTOP,
-      part: ClothingPart.TOP_PART,
-      temperatures: [TemperatureCategory.MODERATE, TemperatureCategory.WARM, TemperatureCategory.HOT],
-      styles: [ClothingStyle.FORMAL, ClothingStyle.CASUAL, ClothingStyle.SPORTS],
     ),
     ClothingType.TSHIRT: Clothing(
       type: ClothingType.TSHIRT,
-      part: ClothingPart.TOP_PART,
+      part: ClothingPart.TOP,
       temperatures: [TemperatureCategory.MODERATE, TemperatureCategory.WARM, TemperatureCategory.HOT],
       styles: [ClothingStyle.CASUAL, ClothingStyle.SPORTS],
     ),

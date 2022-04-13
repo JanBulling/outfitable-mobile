@@ -1,6 +1,6 @@
 {
     "outfitable": "Outfitable",
-    "clothing_type": "{type, select, 0{Blouse} 1{Dress} 2{Hoodie} 3{Jacket} 4{Jeans} 5{Pants} 6{Shirt} 7{Shorts} 8{Skirt} 9{Sweater} 10{Top} 11{T-Shirt} other{-}}",
+    "clothing_type": "{type, select, 0{Dress} 1{Hoodie} 2{Longsleeve} 3{Pants} 4{Shirt} 5{Shorts} 6{Skirt} 7{T-Shirt} other{-}}",
     "@clothing_type": {
         "placeholders": {
             "type": {
@@ -34,8 +34,13 @@
     },
     "outfit_message_too_cold": "It could be a little too cold with this outfit",
     "outfit_message_too_hot": "It could be a little too warm with this outfit",
-    "outfit_message_raining": "It is raining today. Consider a jacket",
-    "outfit_message_stormy": "It is a little stormy today. Consider a jacket",
+    "outfit_message_raining": "It is raining today. Consider taking a jacket",
+    "outfit_message_stormy": "It is a little stormy today. Consider taking a jacket.",
+    "outfit_message_snowing": "It is goingt to snow today.",
+    "outfit_message_no_weather_data": "Not sure if this outfit fits. We don't have any weather data available.",
+    "outfit_message_error": "There was an error while generating the outfit.",
+    "outfit_message_not_enough_clothing": "No Outfit could be generated because there is no fitting piece for you.",
+    "outfit_message_wrong_style": "Not exactly the style you wanted, but it is the best, we could find.",
     "home_tab": "Home",
     "closet_tab": "Closet",
     "favorites_tab": "Favorites",
@@ -47,10 +52,18 @@
     "outfit_pieces": "Outfit piecec:",
     "save_outfit": "Save outfit",
     "new_outfit": "New outfit",
+    "select": "Select",
     "select_clothing_type": "Select clothing type",
     "select_clothing_style": "Select style",
     "select_clothing_temperature": "Select optimal temperature",
     "add": "Add",
     "select_color": "Select color",
-    "change_color": "Change color"
+    "change_color": "Change color",
+    "classify_clothing": "Classify Clothing",
+    "detected_clothing_type": "Detected a {type}",
+    "@detected_clothing_type" : {
+        "placeholders": {
+            "type": {}
+        }
+    }
 }

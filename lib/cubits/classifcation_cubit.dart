@@ -25,22 +25,23 @@ class ClassificationCubit extends Cubit<ClassificationState> {
       Map result = classificationResults[0];
 
       int currentType = result["index"] ?? -1;
+      String label = result["label"] ?? -1;
       double confidence = result["confidence"] ?? -1.0;
 
       if (currentType == _mostConfidentType) {
         _highestConfidence = math.max(_highestConfidence, confidence);
         _color = color;
 
-        emit(SuccessClassificationState(_mostConfidentType!, _color!));
+        emit(SuccessClassificationState(_mostConfidentType!, label, _color!));
         return;
       }
 
-      if (confidence > _highestConfidence - 0.15) {
+      if (confidence > _highestConfidence - 0.25) {
         _highestConfidence = confidence;
         _mostConfidentType = currentType;
         _color = color;
 
-        emit(SuccessClassificationState(_mostConfidentType!, _color!));
+        emit(SuccessClassificationState(_mostConfidentType!, label, _color!));
       }
     } catch (err) {
       emit(ErrorClassificationState(err.toString()));
@@ -65,6 +66,7 @@ class ErrorClassificationState extends ClassificationState {
 
 class SuccessClassificationState extends ClassificationState {
   final int resultType;
+  final String label;
   final Color color;
-  SuccessClassificationState(this.resultType, this.color);
+  SuccessClassificationState(this.resultType, this.label, this.color);
 }

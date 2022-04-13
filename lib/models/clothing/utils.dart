@@ -15,27 +15,22 @@ class TemperatureCategory {
 class ClothingType {
   static const int NONE = -1;
 
-  static const int BLOUSE = 0;
-  static const int DRESS = 1;
-  static const int HOODIE = 2;
-  static const int JACKET = 3;
-  static const int JEANS = 4;
-  static const int PANTS = 5;
-  static const int SHIRT = 6;
-  static const int SHORTS = 7;
-  static const int SKIRT = 8;
-  static const int SWEATER = 9;
-  static const int TANKTOP = 10;
-  static const int TSHIRT = 11;
+  static const int DRESS = 0;
+  static const int HOODIE = 1;
+  static const int LONGSLEEVE = 2;
+  static const int PANTS = 3;
+  static const int SHIRT = 4;
+  static const int SHORTS = 5;
+  static const int SKIRT = 6;
+  static const int TSHIRT = 7;
 }
 
 /// Where the piece of clothing is worn
 class ClothingPart {
   static const int NONE = -1;
 
-  static const int TOP_PART = 0;
-  static const int LOWER_PART = 1;
-  static const int BOTH = 2;
+  static const int TOP = 0;
+  static const int LOWER = 1;
 }
 
 /// Style, where the piece of clothing is worn usually
@@ -49,18 +44,14 @@ class ClothingStyle {
 
 class ClothingUtils {
   static String getTypeIconPath(int type) {
-    String basePath = "assets/icons/";
+    String basePath = "assets/images/";
     switch (type) {
-      case ClothingType.BLOUSE:
-        return basePath + "blouse.svg";
       case ClothingType.DRESS:
         return basePath + "dress.svg";
       case ClothingType.HOODIE:
         return basePath + "hoodie.svg";
-      case ClothingType.JACKET:
-        return basePath + "jacket.svg";
-      case ClothingType.JEANS:
-        return basePath + "jeans.svg";
+      case ClothingType.LONGSLEEVE:
+        return basePath + "longsleeve.svg";
       case ClothingType.PANTS:
         return basePath + "pants.svg";
       case ClothingType.SHIRT:
@@ -69,10 +60,6 @@ class ClothingUtils {
         return basePath + "shorts.svg";
       case ClothingType.SKIRT:
         return basePath + "skirt.svg";
-      case ClothingType.SWEATER:
-        return basePath + "sweater.svg";
-      case ClothingType.TANKTOP:
-        return basePath + "tank_top.svg";
       case ClothingType.TSHIRT:
         return basePath + "tshirt.svg";
       default:
