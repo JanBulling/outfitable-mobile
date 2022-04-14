@@ -3,11 +3,15 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../models/classification_result.dart';
+
 class ClassificationCubit extends Cubit<ClassificationState> {
   bool _isLoading = false;
   int? _mostConfidentType;
-  Color? _color;
+  Color _color = Colors.black;
   double _highestConfidence = 0.0;
+
+  final double minConfidence = 0.5;
 
   ClassificationCubit() : super(LoadingClassificationState());
 
@@ -18,30 +22,31 @@ class ClassificationCubit extends Cubit<ClassificationState> {
     }
   }
 
-  void processResult(List classificationResults, Color color) {
+  /// processes the result. The method also saves the highes result.
+  void processResult(ClassificationResult predictions) {
     try {
-      if (classificationResults.isEmpty) return;
+      if (predictions.index == -1) return;
 
-      Map result = classificationResults[0];
+      double confidence = predictions.confidence;
+      int type = predictions.index;
 
-      int currentType = result["index"] ?? -1;
-      String label = result["label"] ?? -1;
-      double confidence = result["confidence"] ?? -1.0;
+      if (confidence < minConfidence) return;
 
-      if (currentType == _mostConfidentType) {
+      if (type == _mostConfidentType) {
         _highestConfidence = math.max(_highestConfidence, confidence);
-        _color = color;
+        _color = predictions.color ?? Colors.black;
 
-        emit(SuccessClassificationState(_mostConfidentType!, label, _color!));
+        emit(SuccessClassificationState(_mostConfidentType!, _color));
         return;
       }
 
+      // tolerance. If there is another clothing with a high confidence, the result switches
       if (confidence > _highestConfidence - 0.25) {
         _highestConfidence = confidence;
-        _mostConfidentType = currentType;
-        _color = color;
+        _mostConfidentType = type;
+        _color = predictions.color ?? Colors.black;
 
-        emit(SuccessClassificationState(_mostConfidentType!, label, _color!));
+        emit(SuccessClassificationState(_mostConfidentType!, _color));
       }
     } catch (err) {
       emit(ErrorClassificationState(err.toString()));
@@ -66,7 +71,6 @@ class ErrorClassificationState extends ClassificationState {
 
 class SuccessClassificationState extends ClassificationState {
   final int resultType;
-  final String label;
   final Color color;
-  SuccessClassificationState(this.resultType, this.label, this.color);
+  SuccessClassificationState(this.resultType, this.color);
 }

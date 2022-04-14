@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../ui/screens/add_clothing.dart';
+import '../ui/screens/add_clothing_screen.dart';
 import 'dependency_injection.dart';
 
 // Bloc / Cubit
@@ -9,7 +9,7 @@ import '../cubits/tensorflow_cubit.dart';
 import '../services/tensorflow_service.dart';
 
 // Screens
-import '../ui/screens/classification.dart';
+import '../ui/screens/classification_screen.dart';
 import '../ui/screens/general/start_screen.dart';
 import '../ui/screens/closet_details_screen.dart';
 

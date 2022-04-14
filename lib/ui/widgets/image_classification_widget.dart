@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tflite/tflite.dart';
+//import 'package:tflite/tflite.dart';
 
 import '../../cubits/tensorflow_cubit.dart';
 
@@ -95,7 +95,7 @@ class _ImageClassifierState extends State<ImageClassifier> with WidgetsBindingOb
     _controller?.dispose();
 
     // Close tensorflow
-    Tflite.close();
+    //Tflite.close();
 
     super.dispose();
   }

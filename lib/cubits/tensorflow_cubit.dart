@@ -2,8 +2,8 @@ import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../models/classification_result.dart';
 import '../services/tensorflow_service.dart';
-import '../technologies/image/image_utils.dart';
 
 class TensorflowCubit extends Cubit<TensorflowState> {
   final TensorflowService _service;
@@ -14,12 +14,15 @@ class TensorflowCubit extends Cubit<TensorflowState> {
     emit(LoadingModelTensorflowState());
 
     try {
-      print("Loading Tensorflow model...");
+      String modelName = "outfitable_v2";
+
       await _service.loadModel(
-        "assets/tensorflow/model_outfitable_v2.tflite",
-        "assets/tensorflow/labels_outfitable_v2.txt",
+        "tensorflow/model_$modelName.tflite",
+        "assets/tensorflow/labels_$modelName.txt",
       );
-      print("Tensorflow model loaded successfully");
+
+      //+ DEPUG PRINT
+      print("[TensorflowCubit] - Model '$modelName' loaded successfully.");
 
       emit(ModelLoadedTensorflowState());
     } catch (err) {
@@ -28,14 +31,13 @@ class TensorflowCubit extends Cubit<TensorflowState> {
   }
 
   void classifyFrame(CameraImage image) async {
-    var bytes = image.planes.map((planes) => planes.bytes).toList();
-
     try {
-      var color = await ImageUtils.predictColor(image);
+      var results = await _service.classifyCameraImage(image);
 
-      List results = await _service.classifyFrame(bytes, image.width, image.height);
+      //+ DEPUG PRINT
+      print(results);
 
-      emit(SuccessTensorflowState(results, color));
+      emit(SuccessTensorflowState(results));
     } catch (err) {
       emit(ErrorTensorflowState(err.toString()));
     }
@@ -66,7 +68,6 @@ class ErrorTensorflowState extends TensorflowState {
 class ModelLoadedTensorflowState extends TensorflowState {}
 
 class SuccessTensorflowState extends TensorflowState {
-  final List results;
-  final Color color;
-  SuccessTensorflowState(this.results, this.color);
+  final ClassificationResult results;
+  SuccessTensorflowState(this.results);
 }
